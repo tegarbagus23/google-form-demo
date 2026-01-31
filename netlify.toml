@@ -2,15 +2,23 @@
   publish = "public"
   functions = "netlify/functions"
 
+# Format baru untuk functions
 [functions]
-  timeout = 10
-  memory = 1024
+  # Untuk function-specific timeout, atur di masing-masing function
+  # atau gunakan default
+  
+# Atau gunakan format ini untuk global timeout:
+# [[functions]]
+#   timeout = 10
+#   memory = 1024
 
-[dev]
-  port = 8888
-  targetPort = 8888
-  framework = "#static"
+# Redirects (opsional)
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
 
+# Headers untuk keamanan
 [[headers]]
   for = "/*"
   [headers.values]
@@ -18,12 +26,10 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     
-    # Security headers untuk demo
-    Content-Security-Policy = """
-      default-src 'self';
-      script-src 'self' 'unsafe-inline';
-      style-src 'self' 'unsafe-inline';
-      img-src 'self' data: https:;
-      font-src 'self';
-      frame-ancestors 'none';
-    """
+    # CSP yang lebih permisif untuk demo
+    Content-Security-Policy = "default-src 'self' https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;"
+
+# Environment variables bisa di-set di dashboard Netlify
+# atau di file ini:
+# [build.environment]
+#   NODE_VERSION = "18"
