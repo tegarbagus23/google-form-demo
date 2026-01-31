@@ -1,0 +1,26 @@
+{
+  "name": "google-form-phishing-demo",
+  "version": "1.0.0",
+  "description": "Demo edukasional phishing form - HANYA UNTUK PEMBELAJARAN",
+  "main": "index.js",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build needed'",
+    "clean": "rm -rf node_modules"
+  },
+  "dependencies": {
+    "@netlify/functions": "^1.6.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^15.0.0"
+  },
+  "keywords": [
+    "security",
+    "education",
+    "phishing-demo",
+    "cybersecurity"
+  ],
+  "author": "Security Educator",
+  "license": "EDUCATIONAL-ONLY",
+  "private": true
+}
